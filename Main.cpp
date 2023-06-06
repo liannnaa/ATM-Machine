@@ -35,14 +35,16 @@ public:
 
     void showBalance() {
         cout << "Your current balance is: $" << balance << "\nPress enter to go back to the Main Window\n";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore();
+        cin.get();
     }
 
     void deposit(double amount) {
         balance += amount;
         transactions.push_back(Transaction("Deposit", amount));
         cout << "Well done. This was added to your balance successfully…Press enter to go back to the Main Window\n";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore();
+        cin.get();
     }
 
     void withdraw(double amount) {
@@ -53,7 +55,8 @@ public:
         } else {
             cout << "Insufficient balance! Press enter to go back to the Main Window\n";
         }
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore();
+        cin.get();
     }
 
     void showAllTransactions() {
@@ -63,7 +66,8 @@ public:
             cout << transactions[i].date << " | " << transactions[i].type << " | " << transactions[i].amount << "\n";
         }
         cout << "Press enter to go back to the Main Window\n";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore();
+        cin.get();
     }
 };
 
