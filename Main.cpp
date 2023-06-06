@@ -34,7 +34,7 @@ public:
     }
 
     void showBalance() {
-        cout << "Your current balance is: $" << balance << "\nPress enter to go back to the Main Window\n";
+        cout << "\nMain Window -> Show Balance\n========================\nYour current balance is: $" << balance << "\n—————————————————\nPress enter to go back to the Main Window\n";
         cin.ignore();
         cin.get();
     }
@@ -42,7 +42,7 @@ public:
     void deposit(double amount) {
         balance += amount;
         transactions.push_back(Transaction("Deposit", amount));
-        cout << "Well done. This was added to your balance successfully…Press enter to go back to the Main Window\n";
+        cout << "———————————————————————————————\nWell done. This was added to your balance successfully…Press enter to go back to the Main Window\n";
         cin.ignore();
         cin.get();
     }
@@ -51,19 +51,19 @@ public:
         if(amount <= balance) {
             balance -= amount;
             transactions.push_back(Transaction("Withdraw", amount));
-            cout << "Please take your money then…Press enter to go back to the Main Window\n";
+            cout << "————————————————————————————————\nPlease take your money then…Press enter to go back to the Main Window\n";
         } else {
-            cout << "Insufficient balance! Press enter to go back to the Main Window\n";
+            cout << "————————————————————————————————\nInsufficient balance! Press enter to go back to the Main Window\n";
         }
         cin.ignore();
         cin.get();
     }
 
     void showAllTransactions() {
-        cout << "Account no: " << account_no << "\n";
-        cout << "Date                  | Type     | Amount\n";
+        cout << "\nMain Window -> Show All Transactions\n=====================================\nAccount no: " << account_no << "\n——————————————————————————-\n";
+        cout << "Date | Type | Amount\n";
         for(int i = 0; i < transactions.size(); i++) {
-            cout << transactions[i].date << " | " << transactions[i].type << " | " << transactions[i].amount << "\n";
+            cout << transactions[i].date << " | " << transactions[i].type << " | " << transactions[i].amount << "\n——————————————————————————-\n";
         }
         cout << "Press enter to go back to the Main Window\n";
         cin.ignore();
@@ -87,26 +87,26 @@ int main() {
     int account_no, choice;
     string password;
     while(true) {
-        cout << "Enter your account no: ";
+        cout << "\nLogin Window\n===========\nEnter your account no: ";
         cin >> account_no;
         if(!isValidInput() || account_no <= 0 || account_no > 10) {
-            cout << "Invalid account number! Try again.\n";
+            cout << "\nInvalid account number! Try again.\n";
             continue;
         }
 
         cout << "Enter your password: ";
         cin >> password;
         if(accounts[account_no - 1].password != password) {
-            cout << "Invalid password! Try again.\n";
+            cout << "\nInvalid password! Try again.\n";
             continue;
         }
 
         Account &acc = accounts[account_no - 1];
         while(true) {
-            cout << "Choose one of the following options:\n(1) Show balance\n(2) Deposit\n(3) Withdraw\n(4) Show All Transactions\nEnter your choice: ";
+            cout << "\nMain Window:\n==========\nChoose one of the following options:\n(1) Show balance\n(2) Deposit\n(3) Withdraw\n(4) Show All Transactions\nEnter your choice: ";
             cin >> choice;
             if(!isValidInput() || choice <= 0 || choice > 4) {
-                cout << "Invalid choice! Try again.\n";
+                cout << "\nInvalid choice! Try again.\n";
                 continue;
             }
 
@@ -114,19 +114,19 @@ int main() {
                 acc.showBalance();
             } else if(choice == 2) {
                 double amount;
-                cout << "The amount you want to deposit: ";
+                cout << "\nMain Window -> Deposit (Enter the following information)\n===========================================\nThe amount you want to deposit: ";
                 cin >> amount;
                 if(!isValidInput() || amount <= 0) {
-                    cout << "Invalid amount! Try again.\n";
+                    cout << "\nInvalid amount! Try again.\n";
                     continue;
                 }
                 acc.deposit(amount);
             } else if(choice == 3) {
                 double amount;
-                cout << "The amount you want to withdraw: ";
+                cout << "\nMain Window -> Withdraw (Enter the following information)\n============================================\nThe amount you want to withdraw: ";
                 cin >> amount;
                 if(!isValidInput() || amount <= 0) {
-                    cout << "Invalid amount! Try again.\n";
+                    cout << "\nInvalid amount! Try again.\n";
                     continue;
                 }
                 acc.withdraw(amount);
