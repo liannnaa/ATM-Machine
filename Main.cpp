@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <limits>
 
 using namespace std;
 
@@ -34,14 +35,14 @@ public:
 
     void showBalance() {
         cout << "Your current balance is: $" << balance << "\nPress enter to go back to the Main Window\n";
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
     void deposit(double amount) {
         balance += amount;
         transactions.push_back(Transaction("Deposit", amount));
         cout << "Well done. This was added to your balance successfully…Press enter to go back to the Main Window\n";
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
     void withdraw(double amount) {
@@ -52,7 +53,7 @@ public:
         } else {
             cout << "Insufficient balance! Press enter to go back to the Main Window\n";
         }
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
     void showAllTransactions() {
@@ -62,12 +63,21 @@ public:
             cout << t.date << " | " << t.type << " | " << t.amount << "\n";
         }
         cout << "Press enter to go back to the Main Window\n";
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 };
 
 int Account::count = 0;
 vector<Account> accounts(10);
+
+bool isValidInput() {
+    if(cin.fail()) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return false;
+    }
+    return true;
+}
 
 int main() {
     int account_no, choice;
@@ -75,10 +85,15 @@ int main() {
     while(true) {
         cout << "Enter your account no: ";
         cin >> account_no;
+        if(!isValidInput() || account_no <= 0 || account_no > 10) {
+            cout << "Invalid account number! Try again.\n";
+            continue;
+        }
+
         cout << "Enter your password: ";
         cin >> password;
-        if(account_no <= 0 || account_no > 10 || accounts[account_no - 1].password != password) {
-            cout << "Invalid credentials! Try again.\n";
+        if(accounts[account_no - 1].password != password) {
+            cout << "Invalid password! Try again.\n";
             continue;
         }
 
@@ -86,13 +101,18 @@ int main() {
         while(true) {
             cout << "Choose one of the following options:\n(1) Show balance\n(2) Deposit\n(3) Withdraw\n(4) Show All Transactions\nEnter your choice: ";
             cin >> choice;
+            if(!isValidInput() || choice <= 0 || choice > 4) {
+                cout << "Invalid choice! Try again.\n";
+                continue;
+            }
+
             if(choice == 1) {
                 acc.showBalance();
             } else if(choice == 2) {
                 double amount;
                 cout << "The amount you want to deposit: ";
                 cin >> amount;
-                if(amount <= 0) {
+                if(!isValidInput() || amount <= 0) {
                     cout << "Invalid amount! Try again.\n";
                     continue;
                 }
@@ -101,16 +121,15 @@ int main() {
                 double amount;
                 cout << "The amount you want to withdraw: ";
                 cin >> amount;
-                if(amount <= 0) {
+                if(!isValidInput() || amount <= 0) {
                     cout << "Invalid amount! Try again.\n";
                     continue;
                 }
                 acc.withdraw(amount);
             } else if(choice == 4) {
                 acc.showAllTransactions();
-            } else {
-                cout << "Invalid choice! Try again.\n";
             }
         }
     }
+    return 0;
 }
