@@ -59,8 +59,8 @@ public:
     void showAllTransactions() {
         cout << "Account no: " << account_no << "\n";
         cout << "Date                  | Type     | Amount\n";
-        for(auto &t : transactions) {
-            cout << t.date << " | " << t.type << " | " << t.amount << "\n";
+        for(int i = 0; i < transactions.size(); i++) {
+            cout << transactions[i].date << " | " << transactions[i].type << " | " << transactions[i].amount << "\n";
         }
         cout << "Press enter to go back to the Main Window\n";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
